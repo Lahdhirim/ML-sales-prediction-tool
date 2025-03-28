@@ -5,9 +5,11 @@ from colorama import Fore, Style
 from src.utils.schema import DatasetSchema
 from sklearn.preprocessing import StandardScaler
 from src.modeling.ml_models import MLModels
+from src.evaluators.ml_evaluator import MLEvaluator
+from src.utils.training_config_loader import TrainingConfig
 
 class backtestingPipeline:
-    def __init__(self, training_config):
+    def __init__(self, training_config: TrainingConfig):
         self.training_config = training_config
     
     def load_processed_data(self):
@@ -61,4 +63,8 @@ class backtestingPipeline:
         
         # Save raw predictions
         results.to_csv(self.training_config.raw_predictions_path, index=False)
+
+        # Evaluate the predictions
+        ml_evaluator = MLEvaluator(config = self.training_config, models = predictions.keys())
+        ml_evaluator.evaluate(results)
         print(Fore.GREEN + "Backtesting pipeline completed successfully" + Style.RESET_ALL)

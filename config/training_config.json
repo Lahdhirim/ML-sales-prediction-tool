@@ -20,5 +20,6 @@
             }
         }
     },
-    "raw_predictions_path": "data/output/raw_predictions.csv"
+    "raw_predictions_path": "data/output/raw_predictions.csv",
+    "kpis_filename": "data/output/KPIs.xlsx"
 }

@@ -25,3 +25,7 @@ class TrainingConfig:
         self.raw_predictions_path: str = config.get("raw_predictions_path")
         if not self.raw_predictions_path:
             raise ValueError("raw_predictions_path is required in the config")
+        
+        self.kpis_filename: str = config.get("kpis_filename")
+        if not self.kpis_filename:
+            raise ValueError("kpis_filename is required in the config")

@@ -2,7 +2,7 @@ from sklearn.linear_model import LinearRegression, ElasticNet
 from colorama import Fore, Style
 
 class MLModels:
-    def __init__(self, config):
+    def __init__(self, config: dict):
         self.models = {}
         if config.get("LinearRegression", {}).get("enabled", False):
             params = {k: v for k, v in config["LinearRegression"].items() if k != "enabled"}
