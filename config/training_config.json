@@ -7,5 +7,18 @@
     "features_selector": {
         "features_path": "config/features.json",
         "target_column": "future_transactions"
-    }
+    },
+    "models_params": {
+        "MLModels": {
+            "ElasticNet": {
+                "enabled": true,
+                "alpha": 1.0,
+                "l1_ratio": 0.2
+            },
+            "LinearRegression": {
+                "enabled": true
+            }
+        }
+    },
+    "raw_predictions_path": "data/output/raw_predictions.csv"
 }

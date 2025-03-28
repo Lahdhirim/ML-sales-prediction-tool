@@ -6,3 +6,4 @@ class DatasetSchema:
     YEAR_MONTH = 'year_month'
     NB_TRANSACTIONS = 'nb_transactions'
     FUTURE_TRANSACTIONS = 'future_transactions'
+    SPLIT_INDEX = 'split_index'

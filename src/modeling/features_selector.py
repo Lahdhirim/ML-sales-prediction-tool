@@ -1,0 +1,17 @@
+import pandas as pd
+from sklearn.base import BaseEstimator, TransformerMixin
+import json
+
+class FeatureSelector(BaseEstimator, TransformerMixin):
+    def __init__(self, features_selector_config: dict):
+        self.features_path = features_selector_config["features_path"]
+        self.target_column = features_selector_config["target_column"]
+
+    def fit(self, X: pd.DataFrame, y=None):
+        return self
+
+    def transform(self, X: pd.DataFrame):
+        with open(self.features_path, 'r') as json_file:
+            features = json.load(json_file)["features"]
+        assert all(feature in X.columns for feature in features), "Some features are not present in the dataset"
+        return X[features], X[self.target_column]

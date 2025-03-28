@@ -2,9 +2,9 @@ import pandas as pd
 from src.utils.schema import DatasetSchema
 
 class TimeSeriesSplitter:
-    def __init__(self, min_training_months: int, testing_months: int):
-        self.min_training_months = min_training_months
-        self.testing_months = testing_months
+    def __init__(self, splitter_config: dict):
+        self.min_training_months = splitter_config["min_training_months"]
+        self.testing_months = splitter_config["testing_months"]
     
     def split(self, df: pd.DataFrame):
         
