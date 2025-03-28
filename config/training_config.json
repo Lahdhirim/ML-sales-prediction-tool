@@ -1,0 +1,11 @@
+{
+    "train_data_path": "data/processed_data.csv",
+    "splitter": {
+        "min_training_months": 12, 
+        "testing_months": 3
+    },
+    "features_selector": {
+        "features_path": "config/features.json",
+        "target_column": "future_transactions"
+    }
+}
