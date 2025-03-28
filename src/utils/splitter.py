@@ -1,10 +1,11 @@
 import pandas as pd
 from src.utils.schema import DatasetSchema
+from src.utils.training_config_loader import SplitterConfig
 
 class TimeSeriesSplitter:
-    def __init__(self, splitter_config: dict):
-        self.min_training_months = splitter_config["min_training_months"]
-        self.testing_months = splitter_config["testing_months"]
+    def __init__(self, splitter_config: SplitterConfig):
+        self.min_training_months = splitter_config.min_training_months
+        self.testing_months = splitter_config.testing_months
     
     def split(self, df: pd.DataFrame):
         
@@ -14,6 +15,7 @@ class TimeSeriesSplitter:
         max_month = df[DatasetSchema.YEAR_MONTH].max()
         print("Data starts from:", min_month, " to:", max_month)
 
+        # Check if enough data to split. At least a training, validation and testing (1 split) set should be available
         month_diff = (max_month - min_month).n
         if month_diff < (self.min_training_months + self.testing_months * 2):
             raise ValueError("Not enough data to split")

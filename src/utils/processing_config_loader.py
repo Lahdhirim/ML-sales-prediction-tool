@@ -1,23 +1,15 @@
 import json
-from typing import List,  Optional
+from pydantic import BaseModel, Field
+from typing import List, Optional
 
-class PreprocssingConfig:
-    def __init__(self, config_path: str):
-        with open(config_path, 'r') as file:
-            config = json.load(file)
+class PreprocessingConfig(BaseModel):
+    raw_data_paths: List[str] = Field(..., min_items=1, description="List of raw data file paths.")
+    columns_to_keep: List[str] = Field(..., min_items=1, description="List of columns to keep.")
+    unknown_product_id: Optional[List[str]] = Field(default=None, description="List of unknown product IDs to remove.")
+    nb_months_to_predict: int = Field(..., gt=0, description="Number of months to predict.")
+    processed_data_path: str = Field(..., description="Path to save processed data.")
 
-        self.raw_data_paths: List[str] = config.get("raw_data_path")
-        if not self.raw_data_paths:
-            raise ValueError("raw_data_paths cannot be None or empty.")
-        
-        self.columns_to_keep: List[str] = config.get("columns_to_keep")
-        if not self.columns_to_keep:
-            raise ValueError("columns_to_keep cannot be None or empty.")
-
-        self.unknown_product_id: Optional[str] = config.get("unknown_product_id")
-
-        self.nb_months_to_predict: int = config.get("nb_months_to_predict")
-        if not self.nb_months_to_predict or self.nb_months_to_predict < 0:
-            raise ValueError("nb_months_to_predict cannot be None or negative.")
-        
-        self.processed_data_path: str = config.get("processed_data_path")
+def preprocessing_config_loader(config_path: str) -> PreprocessingConfig:
+    with open(config_path, "r") as file:
+        config = json.load(file)
+    return PreprocessingConfig(**config)

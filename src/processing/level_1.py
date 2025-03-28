@@ -1,10 +1,10 @@
 import pandas as pd
-from src.utils.processing_config_loader import PreprocssingConfig
+from src.utils.processing_config_loader import PreprocessingConfig
 from colorama import Fore, Style
 from src.utils.schema import DatasetSchema
 
 class Level1Preprocessing():
-    def __init__(self, processing_config: PreprocssingConfig):
+    def __init__(self, processing_config: PreprocessingConfig):
         self.processing_config = processing_config
     
     def load_data(self) -> pd.DataFrame:
@@ -21,7 +21,7 @@ class Level1Preprocessing():
         data[DatasetSchema.DATE] = pd.to_datetime(data[DatasetSchema.DATE], errors="coerce")
         return data
 
-    def run(self):
+    def run(self) -> pd.DataFrame:
         data = self.load_data()
         data = data[self.processing_config.columns_to_keep]
         data = data.drop_duplicates()

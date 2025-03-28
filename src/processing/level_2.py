@@ -1,10 +1,10 @@
 import pandas as pd
-from src.utils.processing_config_loader import PreprocssingConfig
+from src.utils.processing_config_loader import PreprocessingConfig
 from colorama import Fore, Style
 from src.utils.schema import DatasetSchema
 
 class Level2Preprocessing():
-    def __init__(self, processing_config: PreprocssingConfig):
+    def __init__(self, processing_config: PreprocessingConfig):
         self.processing_config = processing_config
     
     def add_label(self, data: pd.DataFrame) -> pd.DataFrame:
@@ -16,6 +16,7 @@ class Level2Preprocessing():
         return transactions_per_customer_month
 
     def run(self, data: pd.DataFrame) -> pd.DataFrame:
-        data = data[~data[DatasetSchema.PRODUCT_ID].isin([self.processing_config.unknown_product_id])]
-        data = self.add_label(data)
-        return data
+        data_copy = data.copy()
+        data_copy = data_copy[~data_copy[DatasetSchema.PRODUCT_ID].isin([self.processing_config.unknown_product_id])]
+        data_copy = self.add_label(data_copy)
+        return data_copy

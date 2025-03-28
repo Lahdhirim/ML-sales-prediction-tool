@@ -39,7 +39,7 @@ class backtestingPipeline:
             X_val, y_val = features_selector.transform(val)
             X_test, y_test = features_selector.transform(test)
 
-            # Scaler (#[HIGH]: Build a pipeline that integrates all steps before training)
+            # Scaling (#[HIGH]: Build a pipeline that integrates all steps before training)
             scaler = StandardScaler()
             X_train_scaled = scaler.fit_transform(X_train)
             X_val_scaled = scaler.transform(X_val)
@@ -48,7 +48,7 @@ class backtestingPipeline:
             # Train models
             predictions = {}
 
-            ml_models = MLModels(config = self.training_config.models_params["MLModels"])
+            ml_models = MLModels(config = self.training_config.models_params.MLModels)
             ml_models.train(X_train_scaled, y_train, X_val_scaled, y_val)
             predictions = ml_models.predict(X_test_scaled, y_test, predictions)
 
@@ -58,7 +58,7 @@ class backtestingPipeline:
                                      DatasetSchema.CUSTOMER_ID: test[DatasetSchema.CUSTOMER_ID],
                                      DatasetSchema.YEAR_MONTH: test[DatasetSchema.YEAR_MONTH],
                                      DatasetSchema.NB_TRANSACTIONS: test[DatasetSchema.NB_TRANSACTIONS], 
-                                     self.training_config.features_selector["target_column"]: y_test})
+                                     self.training_config.features_selector.target_column: y_test})
             results = results._append(pd.concat([input_df.reset_index(drop=True), predictions_df.reset_index(drop=True)], axis=1), ignore_index=True)
         
         # Save raw predictions

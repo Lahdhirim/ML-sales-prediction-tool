@@ -1,11 +1,10 @@
-from src.utils.processing_config_loader import PreprocssingConfig
+from src.utils.processing_config_loader import PreprocessingConfig
 from src.processing.level_1 import Level1Preprocessing
 from src.processing.level_2 import Level2Preprocessing
-import pandas as pd
 from colorama import Fore, Style
 
 class processingPipeline():
-    def __init__(self, processing_config: PreprocssingConfig):
+    def __init__(self, processing_config: PreprocessingConfig):
         self.processing_config = processing_config
 
     def run(self):

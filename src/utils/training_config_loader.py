@@ -1,31 +1,32 @@
+from pydantic import BaseModel, Field
+from typing import Dict, Optional
 import json
-from typing import List,  Optional, Dict
 
-class TrainingConfig:
-    def __init__(self, config_path: str):
-        with open(config_path, 'r') as file:
-            config = json.load(file)
+class SplitterConfig(BaseModel):
+    min_training_months: int = Field(..., gt=0, description="Minimum number of months for training.")
+    testing_months: int = Field(..., gt=0, description="Number of months for testing (and validating).")
 
-        self.train_data_path: str = config.get("train_data_path")
-        if not self.train_data_path:
-            raise ValueError("train_data_path is required in the config")
-        
-        self.splitter: Dict = config.get("splitter")
-        if not self.splitter:
-            raise ValueError("splitter is required in the config")
-        
-        self.features_selector: Dict = config.get("features_selector")
-        if not self.features_selector:
-            raise ValueError("features_selector is required in the config")
-        
-        self.models_params: Dict = config.get("models_params")
-        if not self.models_params:
-            raise ValueError("models_params is required in the config")
-        
-        self.raw_predictions_path: str = config.get("raw_predictions_path")
-        if not self.raw_predictions_path:
-            raise ValueError("raw_predictions_path is required in the config")
-        
-        self.kpis_filename: str = config.get("kpis_filename")
-        if not self.kpis_filename:
-            raise ValueError("kpis_filename is required in the config")
+class FeatureSelectorConfig(BaseModel):
+    features_path: str = Field(..., description="Path to features.")
+    target_column: str = Field(..., description="Target column.")
+
+class ModelConfig(BaseModel):
+    enabled: bool = Field(..., description="Enable or disable the model.")
+    alpha: Optional[float] = None
+    l1_ratio: Optional[float] = None
+
+class ModelsConfig(BaseModel):
+    MLModels: Dict[str, ModelConfig]
+
+class TrainingConfig(BaseModel):
+    train_data_path: str = Field(..., description="Path to training data.")
+    splitter: SplitterConfig
+    features_selector: FeatureSelectorConfig
+    models_params: ModelsConfig
+    raw_predictions_path: str = Field(..., description="Path to save raw predictions.")
+    kpis_path: str = Field(..., description="Filename to save KPIs.")
+
+def training_config_loader(config_path: str) -> TrainingConfig:
+    with open(config_path, "r") as file:
+        config = json.load(file)
+    return TrainingConfig(**config)

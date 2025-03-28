@@ -1,5 +1,5 @@
 {
-    "raw_data_path": ["data/transactions_1.csv", "data/transactions_2.csv"],
+    "raw_data_paths": ["data/transactions_1.csv", "data/transactions_2.csv"],
     "columns_to_keep": ["customer_id", "product_id", "date"],
     "unknown_product_id": ["├ÅTS", "Equipe", "Oxygen", "Undefined", "Not a make"],
     "nb_months_to_predict" : 3,
