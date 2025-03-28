@@ -1,4 +1,6 @@
 from sklearn.linear_model import LinearRegression, ElasticNet
+from sklearn.ensemble import RandomForestRegressor
+import xgboost as xgb
 from colorama import Fore, Style
 from src.utils.training_config_loader import ModelsConfig
 import pandas as pd
@@ -16,6 +18,12 @@ class MLModels:
                 elif model_name == "ElasticNet":
                     params = {k: v for k, v in model_config.dict().items() if k != "enabled" and v is not None}
                     self.models["ElasticNet"] = ElasticNet(**params)
+                elif model_name == "RandomForest":
+                    params = {k: v for k, v in model_config.dict().items() if k != "enabled" and v is not None}
+                    self.models["RandomForest"] = RandomForestRegressor(**params)
+                elif model_name == "XGBoost":
+                    params = {k: v for k, v in model_config.dict().items() if k != "enabled" and v is not None}
+                    self.models["XGBoost"] = xgb.XGBRegressor(**params)
 
     def train(self, X_train: pd.DataFrame, y_train: pd.Series, 
                     X_val: pd.DataFrame, y_val: pd.Series) -> Dict[str, RegressorMixin]:

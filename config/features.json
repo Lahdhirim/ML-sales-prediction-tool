@@ -1,5 +1,17 @@
 {
     "features": [
-        "nb_transactions"
+        "nb_transactions",
+        "month",
+        "season",
+        "rolling_mean_3m",
+        "rolling_mean_6m",
+        "rolling_median_3m",
+        "rolling_median_6m",
+        "rolling_std_3m",
+        "rolling_std_6m",
+        "rolling_sum_3m",
+        "rolling_sum_6m",
+        "lag_3",
+        "lag_6"
     ]
 }

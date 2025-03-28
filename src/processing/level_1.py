@@ -21,7 +21,7 @@ class Level1Preprocessing():
         data[DatasetSchema.DATE] = pd.to_datetime(data[DatasetSchema.DATE], errors="coerce")
         return data
 
-    def run(self) -> pd.DataFrame:
+    def transform(self) -> pd.DataFrame:
         data = self.load_data()
         data = data[self.processing_config.columns_to_keep]
         data = data.drop_duplicates()
