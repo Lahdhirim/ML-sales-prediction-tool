@@ -11,7 +11,7 @@
     "models_params": {
         "MLModels": {
             "ElasticNet": {
-                "enabled": true,
+                "enabled": false,
                 "alpha": 1.0,
                 "l1_ratio": 0.2
             },
@@ -38,7 +38,6 @@
             "activation_function": "relu",
             "solver": "adam",
             "max_iter": 10000,
-            "early_stopping": true,
             "random_state": 42
         }
     },

@@ -25,7 +25,6 @@ class MLPConfig(BaseModel):
     activation_function: Optional[str] = None
     solver: Optional[str] = None
     max_iter: Optional[int] = None
-    early_stopping: Optional[bool] = None
     random_state: Optional[int] = None
 
 class ModelsConfig(BaseModel):

@@ -25,16 +25,18 @@ class MLModels:
                     params = {k: v for k, v in model_config.dict().items() if k != "enabled" and v is not None}
                     self.models["XGBoost"] = xgb.XGBRegressor(**params)
 
-    def train(self, X_train: pd.DataFrame, y_train: pd.Series, 
-                    X_val: pd.DataFrame, y_val: pd.Series) -> Dict[str, RegressorMixin]:
+    def train(self, X_train: pd.DataFrame, y_train: pd.Series, X_val: pd.DataFrame, y_val: pd.Series) -> Dict[str, RegressorMixin]:
         for name, model in self.models.items():
             print(f"{Fore.BLUE}Training {name}{Style.RESET_ALL}")
-            model.fit(X_train, y_train)
+            if isinstance(model, xgb.XGBRegressor):
+                model.fit(X_train, y_train, eval_set=[(X_val, y_val)], early_stopping_rounds=50)
+            else:
+                model.fit(X_train, y_train)
         return self.models
     
-    def predict(self, X_test: pd.DataFrame, y_test: pd.Series, 
-                      predictions: Dict[str, np.ndarray]) -> Dict[str, np.ndarray]:
+    def predict(self, X_test: pd.DataFrame, predictions: Dict[str, np.ndarray]) -> Dict[str, np.ndarray]:
         for name, model in self.models.items():
             y_pred = model.predict(X_test)
+            y_pred = np.maximum(y_pred, 0) 
             predictions[name] = y_pred
         return predictions

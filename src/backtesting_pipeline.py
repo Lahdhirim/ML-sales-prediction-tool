@@ -52,18 +52,18 @@ class backtestingPipeline:
 
             ml_models = MLModels(config = self.training_config.models_params.MLModels)
             ml_models.train(X_train_scaled, y_train, X_val_scaled, y_val)
-            predictions = ml_models.predict(X_test_scaled, y_test, predictions)
+            predictions = ml_models.predict(X_test_scaled, predictions)
 
             mlp_model = MLPModel(config = self.training_config.models_params.MLP)
             mlp_model.train(X_train_scaled, y_train)
-            predictions = mlp_model.predict(X_test_scaled, y_test, predictions)
+            predictions = mlp_model.predict(X_test_scaled, predictions)
 
             # Concatenate predictions
             predictions_df = pd.DataFrame(predictions)
             input_df = pd.DataFrame({DatasetSchema.SPLIT_INDEX: split_index, 
                                      DatasetSchema.CUSTOMER_ID: test[DatasetSchema.CUSTOMER_ID],
                                      DatasetSchema.YEAR_MONTH: test[DatasetSchema.YEAR_MONTH],
-                                     DatasetSchema.NB_TRANSACTIONS: test[DatasetSchema.NB_TRANSACTIONS], 
+                                     DatasetSchema.NB_TRANSACTIONS: test[DatasetSchema.NB_TRANSACTIONS],
                                      self.training_config.features_selector.target_column: y_test})
             results = results._append(pd.concat([input_df.reset_index(drop=True), predictions_df.reset_index(drop=True)], axis=1), ignore_index=True)
         
