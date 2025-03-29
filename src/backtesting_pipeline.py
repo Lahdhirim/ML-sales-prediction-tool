@@ -1,5 +1,6 @@
 from src.utils.splitter import TimeSeriesSplitter
 from src.modeling.features_selector import FeatureSelector
+from src.modeling.clustering_processor import ClusteringProcessor
 import pandas as pd
 from colorama import Fore, Style
 from src.utils.schema import DatasetSchema
@@ -35,6 +36,16 @@ class backtestingPipeline:
             print("Test:", test[DatasetSchema.YEAR_MONTH].min(), test[DatasetSchema.YEAR_MONTH].max())
 
             #[MEDIUM]: Build a pipeline that integrates all steps before training
+            # Clustering
+            clustering_processor = ClusteringProcessor(clustering_processor_config = self.training_config.clustering_processor)
+            train_processed = clustering_processor.process_data(X=train)
+            val_processed = clustering_processor.process_data(X=val)
+            test_processed = clustering_processor.process_data(X=test)
+            clustering_processor.fit(X=train_processed)
+            train = clustering_processor.predict(X=train_processed, input_df=train)
+            val = clustering_processor.predict(X=val_processed, input_df=val)
+            test = clustering_processor.predict(X=test_processed, input_df=test)
+
             # Feature selection
             features_selector = FeatureSelector(features_selector_config = self.training_config.features_selector)
             X_train, y_train = features_selector.transform(train)

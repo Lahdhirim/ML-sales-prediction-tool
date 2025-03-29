@@ -14,6 +14,12 @@ class DatasetSchema:
     SEASON = 'season'
     ROLLING = 'rolling'
     LAG = 'lag'
+    CLUSTER_ID = 'cluster_id'
+
+class MappingSchema:
+    GROUP = 'group'
+    COUNTRY = 'country'
+    CATEGORY = 'category'
 
 class EvaluatorSchema:
     # Evaluation metrics

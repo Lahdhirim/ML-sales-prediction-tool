@@ -19,6 +19,8 @@ class Level1Preprocessing():
 
     def convert_date(self, data: pd.DataFrame) -> pd.DataFrame:
         data[DatasetSchema.DATE] = pd.to_datetime(data[DatasetSchema.DATE], errors="coerce")
+        data[DatasetSchema.YEAR_MONTH] = data[DatasetSchema.DATE].dt.to_period("M")
+        data = data.drop(DatasetSchema.DATE, axis=1)
         return data
 
     def transform(self) -> pd.DataFrame:
@@ -26,5 +28,6 @@ class Level1Preprocessing():
         data = data[self.processing_config.columns_to_keep]
         data = data.drop_duplicates()
         data = self.convert_date(data)
+        data = data[~data[DatasetSchema.PRODUCT_ID].isin([self.processing_config.unknown_product_id])]
         return data
 

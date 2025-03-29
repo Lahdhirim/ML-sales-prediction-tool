@@ -4,6 +4,17 @@
         "min_training_months": 12, 
         "testing_months": 3
     },
+    "clustering_processor":
+        {
+            "product_mapping_path": "data/product_mapping.xlsx",
+            "lvl1_processed_data_path": "data/lvl1_processed_data.csv",
+            "features": {
+                "categorical_features": ["product_id", "group", "country", "category"],
+                "numerical_features": ["avg_transactions_per_month"]
+            },
+            "max_clusters": 30,
+            "default_cluster_size": 4
+        },
     "features_selector": {
         "features_path": "config/features.json",
         "target_column": "future_transactions"

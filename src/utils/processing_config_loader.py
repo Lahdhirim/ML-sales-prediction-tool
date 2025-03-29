@@ -7,6 +7,7 @@ class PreprocessingConfig(BaseModel):
     columns_to_keep: List[str] = Field(..., min_items=1, description="List of columns to keep.")
     unknown_product_id: Optional[List[str]] = Field(default=None, description="List of unknown product IDs to remove.")
     nb_months_to_predict: int = Field(..., gt=0, description="Number of months to predict.")
+    lvl1_processed_data_path: str = Field(..., description="Path to save Level 1 processed data (useful for clustering).")
     processed_data_path: str = Field(..., description="Path to save processed data.")
 
 def preprocessing_config_loader(config_path: str) -> PreprocessingConfig:

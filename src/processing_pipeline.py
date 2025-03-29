@@ -13,6 +13,7 @@ class processingPipeline():
 
         data = Level1Preprocessing(self.processing_config).transform()
         print("Shape of the data after level 1 preprocessing: ", data.shape)
+        data.to_csv(self.processing_config.lvl1_processed_data_path, index=False)
 
         data = Level2Preprocessing(self.processing_config).transform(data)
         print("Shape of the data after level 2 preprocessing: ", data.shape)

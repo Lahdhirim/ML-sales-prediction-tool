@@ -7,7 +7,6 @@ class Level2Preprocessing():
         self.processing_config = processing_config
 
     def calculate_monthly_transactions(self, data: pd.DataFrame) -> pd.DataFrame:
-        data[DatasetSchema.YEAR_MONTH] = data[DatasetSchema.DATE].dt.to_period("M")
         transactions_per_customer_month = data.groupby([DatasetSchema.CUSTOMER_ID, DatasetSchema.YEAR_MONTH]).size().reset_index(name=DatasetSchema.NB_TRANSACTIONS)
         return transactions_per_customer_month
 
@@ -44,7 +43,6 @@ class Level2Preprocessing():
 
     def transform(self, data: pd.DataFrame) -> pd.DataFrame:
         data_copy = data.copy()
-        data_copy = data_copy[~data_copy[DatasetSchema.PRODUCT_ID].isin([self.processing_config.unknown_product_id])]
         data_copy = self.calculate_monthly_transactions(data_copy)
         data_copy = self.fill_values(data_copy)
         data_copy = self.add_label(data_copy)

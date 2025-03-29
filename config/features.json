@@ -102,6 +102,7 @@
         "lag_future_transactions_9m",
         "lag_future_transactions_10m",
         "lag_future_transactions_11m",
-        "lag_future_transactions_12m"
+        "lag_future_transactions_12m",
+        "cluster_id"
     ]
 }
