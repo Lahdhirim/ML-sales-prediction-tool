@@ -22,12 +22,14 @@
     "models_params": {
         "MLModels": {
             "ElasticNet": {
-                "enabled": false,
+                "enabled": true,
                 "alpha": 1.0,
                 "l1_ratio": 0.2
             },
-            "LinearRegression": {
-                "enabled": true
+            "KNeighborsRegressor": {
+                "enabled": true,
+                "n_neighbors": 5,
+                "weights": "distance"
             },
             "RandomForest": {
                 "enabled": true,

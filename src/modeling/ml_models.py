@@ -1,5 +1,6 @@
-from sklearn.linear_model import LinearRegression, ElasticNet
+from sklearn.linear_model import ElasticNet
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.neighbors import KNeighborsRegressor
 import xgboost as xgb
 from colorama import Fore, Style
 from src.utils.training_config_loader import ModelsConfig
@@ -13,8 +14,9 @@ class MLModels:
         self.models = {}
         for model_name, model_config in config.items():
             if model_config.enabled:
-                if model_name == "LinearRegression":
-                    self.models["LinearRegression"] = LinearRegression()
+                if model_name == "KNeighborsRegressor":
+                    params = {k: v for k, v in model_config.dict().items() if k != "enabled" and v is not None}
+                    self.models["KNeighborsRegressor"] = KNeighborsRegressor(**params)
                 elif model_name == "ElasticNet":
                     params = {k: v for k, v in model_config.dict().items() if k != "enabled" and v is not None}
                     self.models["ElasticNet"] = ElasticNet(**params)
