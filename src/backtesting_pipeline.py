@@ -5,6 +5,7 @@ from colorama import Fore, Style
 from src.utils.schema import DatasetSchema
 from sklearn.preprocessing import StandardScaler
 from src.modeling.ml_models import MLModels
+from src.modeling.mlp import MLPModel
 from src.evaluators.ml_evaluator import MLEvaluator
 from src.utils.training_config_loader import TrainingConfig
 
@@ -33,13 +34,14 @@ class backtestingPipeline:
             print("Val:", val[DatasetSchema.YEAR_MONTH].min(), val[DatasetSchema.YEAR_MONTH].max())
             print("Test:", test[DatasetSchema.YEAR_MONTH].min(), test[DatasetSchema.YEAR_MONTH].max())
 
+            #[MEDIUM]: Build a pipeline that integrates all steps before training
             # Feature selection
             features_selector = FeatureSelector(features_selector_config = self.training_config.features_selector)
             X_train, y_train = features_selector.transform(train)
             X_val, y_val = features_selector.transform(val)
             X_test, y_test = features_selector.transform(test)
 
-            # Scaling (#[HIGH]: Build a pipeline that integrates all steps before training)
+            # Scaling
             scaler = StandardScaler()
             X_train_scaled = scaler.fit_transform(X_train)
             X_val_scaled = scaler.transform(X_val)
@@ -51,6 +53,10 @@ class backtestingPipeline:
             ml_models = MLModels(config = self.training_config.models_params.MLModels)
             ml_models.train(X_train_scaled, y_train, X_val_scaled, y_val)
             predictions = ml_models.predict(X_test_scaled, y_test, predictions)
+
+            mlp_model = MLPModel(config = self.training_config.models_params.MLP)
+            mlp_model.train(X_train_scaled, y_train)
+            predictions = mlp_model.predict(X_test_scaled, y_test, predictions)
 
             # Concatenate predictions
             predictions_df = pd.DataFrame(predictions)

@@ -14,9 +14,23 @@ class ModelConfig(BaseModel):
     enabled: bool = Field(..., description="Enable or disable the model.")
     alpha: Optional[float] = None
     l1_ratio: Optional[float] = None
+    n_estimators: Optional[int] = None
+    max_depth: Optional[int] = None
+    learning_rate: Optional[float] = None
+    random_state: Optional[int] = None
+
+class MLPConfig(BaseModel):
+    enabled: bool = Field(..., description="Enable or disable the MLP model.")
+    hidden_layers_sizes: Optional[list] = None
+    activation_function: Optional[str] = None
+    solver: Optional[str] = None
+    max_iter: Optional[int] = None
+    early_stopping: Optional[bool] = None
+    random_state: Optional[int] = None
 
 class ModelsConfig(BaseModel):
     MLModels: Dict[str, ModelConfig]
+    MLP: MLPConfig 
 
 class TrainingConfig(BaseModel):
     train_data_path: str = Field(..., description="Path to training data.")

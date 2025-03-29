@@ -9,6 +9,7 @@ class Level3Preprocessing():
         data_copy[DatasetSchema.SEASON] = data_copy[DatasetSchema.MONTH].apply(lambda x: (x % 12 + 3) // 3)
         return data_copy
 
+    #[MEDIUM]: Unify the two functions of rolling_features
     def rolling_features(self, data: pd.DataFrame) -> pd.DataFrame:
         data_copy = data.copy()
         data_copy = data_copy.sort_values(by=[DatasetSchema.CUSTOMER_ID, DatasetSchema.YEAR_MONTH])

@@ -31,6 +31,15 @@
                 "max_depth": 5,
                 "random_state": 42
             }
+        },
+        "MLP": {
+            "enabled": true,
+            "hidden_layers_sizes": [100, 100],
+            "activation_function": "relu",
+            "solver": "adam",
+            "max_iter": 10000,
+            "early_stopping": true,
+            "random_state": 42
         }
     },
     "raw_predictions_path": "data/output/raw_predictions.csv",
