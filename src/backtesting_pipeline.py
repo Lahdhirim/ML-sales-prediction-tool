@@ -9,6 +9,8 @@ from src.modeling.ml_models import MLModels
 from src.modeling.mlp import MLPModel
 from src.evaluators.ml_evaluator import MLEvaluator
 from src.utils.training_config_loader import TrainingConfig
+from src.utils.model_saver import save_models
+import copy
 
 class backtestingPipeline:
     def __init__(self, training_config: TrainingConfig):
@@ -28,7 +30,12 @@ class backtestingPipeline:
 
         splitter = TimeSeriesSplitter(splitter_config = self.training_config.splitter)
         results = pd.DataFrame()
+
+        # Initialize the dictionary of models (useful for inference)
+        pipelines_dict = {}
+
         for split_index, train, val, test in splitter.split(df):
+            current_pipeline = {}
             print("-" * 40)
             print(f"{Fore.YELLOW}Split {split_index}{Style.RESET_ALL}")
             print("Train:", train[DatasetSchema.YEAR_MONTH].min(), train[DatasetSchema.YEAR_MONTH].max())
@@ -77,6 +84,16 @@ class backtestingPipeline:
                                      DatasetSchema.NB_TRANSACTIONS: test[DatasetSchema.NB_TRANSACTIONS],
                                      self.training_config.features_selector.target_column: y_test})
             results = results._append(pd.concat([input_df.reset_index(drop=True), predictions_df.reset_index(drop=True)], axis=1), ignore_index=True)
+
+            # Save current pipeline
+            current_pipeline["clustering_processor"] = copy.deepcopy(clustering_processor)
+            current_pipeline["features_selector"] = copy.deepcopy(features_selector)
+            current_pipeline["scaler"] = copy.deepcopy(scaler)
+            if len(ml_models.models) > 0:
+                current_pipeline["ml_models"] = copy.deepcopy(ml_models)
+            if mlp_model.model != None :
+                current_pipeline["mlp_model"] = copy.deepcopy(mlp_model)
+            pipelines_dict[split_index] = current_pipeline
         
         # Save raw predictions
         results.to_csv(self.training_config.raw_predictions_path, index=False)
@@ -85,3 +102,8 @@ class backtestingPipeline:
         ml_evaluator = MLEvaluator(config = self.training_config, models = predictions.keys())
         ml_evaluator.evaluate(results)
         print(Fore.GREEN + "Backtesting pipeline completed successfully" + Style.RESET_ALL)
+
+        # Save pipelines
+        print(f"{Fore.YELLOW}Saving trained models{Style.RESET_ALL}")
+        save_models(pipelines_dict = pipelines_dict, output_file_name = self.training_config.trained_models_path)
+        print(f"{Fore.GREEN}Saving trained models completed{Style.RESET_ALL}")

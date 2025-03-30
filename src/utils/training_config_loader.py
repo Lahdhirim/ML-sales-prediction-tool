@@ -47,6 +47,7 @@ class TrainingConfig(BaseModel):
     models_params: ModelsConfig
     raw_predictions_path: str = Field(..., description="Path to save raw predictions.")
     kpis_path: str = Field(..., description="Filename to save KPIs.")
+    trained_models_path: str = Field(..., description="Path to save trained models.")
 
 def training_config_loader(config_path: str) -> TrainingConfig:
     with open(config_path, "r") as file:

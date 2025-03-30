@@ -1,0 +1,8 @@
+{
+    "nb_months_to_predict" : 3,
+    "lvl1_processed_data_path": "data/lvl1_processed_data.csv",
+    "processed_data_path": "data/processed_data.csv",
+    "saved_models_path": "models/trained_models.pkl",
+    "n_models": 3,
+    "weghting_method": "uniform"
+}

@@ -32,13 +32,13 @@
                 "weights": "distance"
             },
             "RandomForest": {
-                "enabled": true,
+                "enabled": false,
                 "n_estimators": 100,
                 "max_depth": 5,
                 "random_state": 42
             },
             "XGBoost": {
-                "enabled": true,
+                "enabled": false,
                 "n_estimators": 100,
                 "learning_rate": 0.01,
                 "max_depth": 5,
@@ -46,7 +46,7 @@
             }
         },
         "MLP": {
-            "enabled": true,
+            "enabled": false,
             "hidden_layers_sizes": [100, 100],
             "activation_function": "relu",
             "solver": "adam",
@@ -55,5 +55,6 @@
         }
     },
     "raw_predictions_path": "data/output/raw_predictions.csv",
-    "kpis_path": "data/output/KPIs.xlsx"
+    "kpis_path": "data/output/KPIs.xlsx",
+    "trained_models_path": "models/trained_models.pkl"
 }

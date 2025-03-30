@@ -1,10 +1,9 @@
 import pandas as pd
-from sklearn.base import BaseEstimator, TransformerMixin
 import json
 from typing import Tuple
 from src.utils.training_config_loader import FeatureSelectorConfig
 
-class FeatureSelector(BaseEstimator, TransformerMixin):
+class FeatureSelector():
     def __init__(self, features_selector_config: FeatureSelectorConfig):
         self.features_path = features_selector_config.features_path
         self.target_column = features_selector_config.target_column
