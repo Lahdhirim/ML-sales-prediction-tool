@@ -15,6 +15,7 @@ class DatasetSchema:
     ROLLING = 'rolling'
     LAG = 'lag'
     CLUSTER_ID = 'cluster_id'
+    PREDICTION_AGGREGATED = 'prediction_aggregated'
 
 class MappingSchema:
     GROUP = 'group'
@@ -30,3 +31,10 @@ class EvaluatorSchema:
     YEARLY = 'yearly'
     MONTHLY = 'monthly'
     PER_SPLIT = 'per_split'
+
+class PipelinesDictSchema:
+    CLUSTERIING_PROCESSOR = "clustering_processor"
+    FEATURE_SELECTOR = "features_selector"
+    SCALER = "scaler"
+    ML_MODELS = "ml_models"
+    MLP_MODEL = "mlp_model"

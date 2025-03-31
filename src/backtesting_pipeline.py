@@ -3,7 +3,7 @@ from src.modeling.features_selector import FeatureSelector
 from src.modeling.clustering_processor import ClusteringProcessor
 import pandas as pd
 from colorama import Fore, Style
-from src.utils.schema import DatasetSchema
+from src.utils.schema import DatasetSchema, PipelinesDictSchema
 from sklearn.preprocessing import StandardScaler
 from src.modeling.ml_models import MLModels
 from src.modeling.mlp import MLPModel
@@ -86,13 +86,13 @@ class backtestingPipeline:
             results = results._append(pd.concat([input_df.reset_index(drop=True), predictions_df.reset_index(drop=True)], axis=1), ignore_index=True)
 
             # Save current pipeline
-            current_pipeline["clustering_processor"] = copy.deepcopy(clustering_processor)
-            current_pipeline["features_selector"] = copy.deepcopy(features_selector)
-            current_pipeline["scaler"] = copy.deepcopy(scaler)
+            current_pipeline[PipelinesDictSchema.CLUSTERIING_PROCESSOR] = copy.deepcopy(clustering_processor)
+            current_pipeline[PipelinesDictSchema.FEATURE_SELECTOR] = copy.deepcopy(features_selector)
+            current_pipeline[PipelinesDictSchema.SCALER] = copy.deepcopy(scaler)
             if len(ml_models.models) > 0:
-                current_pipeline["ml_models"] = copy.deepcopy(ml_models)
+                current_pipeline[PipelinesDictSchema.ML_MODELS] = copy.deepcopy(ml_models)
             if mlp_model.model != None :
-                current_pipeline["mlp_model"] = copy.deepcopy(mlp_model)
+                current_pipeline[PipelinesDictSchema.MLP_MODEL] = copy.deepcopy(mlp_model)
             pipelines_dict[split_index] = current_pipeline
         
         # Save raw predictions

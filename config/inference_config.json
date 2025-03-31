@@ -4,5 +4,6 @@
     "processed_data_path": "data/processed_data.csv",
     "saved_models_path": "models/trained_models.pkl",
     "n_models": 3,
-    "weghting_method": "uniform"
+    "weghting_method": "weighted",
+    "raw_predictions_path": "data/output/inference.csv"
 }

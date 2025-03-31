@@ -1,8 +1,9 @@
 from src.utils.inference_config_loader import InferenceConfig
 import pandas as pd
 from colorama import Fore, Style
-from src.utils.schema import DatasetSchema
+from src.utils.schema import DatasetSchema, PipelinesDictSchema
 from src.utils.model_loader import load_models
+from typing import List
 
 class inferencePipeline:
     def __init__(self, inference_config: InferenceConfig):
@@ -27,6 +28,27 @@ class inferencePipeline:
         else:
             last_n_models = dict(sorted(pipelines_dict.items())[-self.inference_config.n_models:])
             return last_n_models
+    
+    def predictions_agg(self, data: pd.DataFrame, models: List[str]) -> None:
+        data_copy = data.copy()
+        if self.inference_config.n_models > 1:
+            if self.inference_config.weghting_method == "uniform":
+                data_copy = data_copy.groupby([DatasetSchema.CUSTOMER_ID, DatasetSchema.YEAR_MONTH, DatasetSchema.NB_TRANSACTIONS])[models].mean().reset_index()
+            else : 
+                if self.inference_config.weghting_method == "weighted":
+                    sum_split_index = data_copy[DatasetSchema.SPLIT_INDEX].unique().sum()
+                    data_copy["weight"] = data_copy[DatasetSchema.SPLIT_INDEX] / sum_split_index
+                    for model_name in models:
+                        data_copy[model_name] = data_copy[model_name] * data_copy["weight"]
+                    data_copy = data_copy.groupby([DatasetSchema.CUSTOMER_ID, DatasetSchema.YEAR_MONTH, DatasetSchema.NB_TRANSACTIONS])[models].sum().reset_index()
+                else:
+                    raise ValueError(f"Invalid weighting method: {self.inference_config.weghting_method}")
+                    
+        else:
+            data_copy = data_copy.drop(DatasetSchema.SPLIT_INDEX, axis=1)
+        data_copy[DatasetSchema.PREDICTION_AGGREGATED] = data_copy[models].mean(axis=1)
+        data_copy[models + [DatasetSchema.PREDICTION_AGGREGATED]] = data_copy[models + [DatasetSchema.PREDICTION_AGGREGATED]].astype(int)
+        return data_copy
 
     def run(self):
         print(Fore.YELLOW + "Running inference pipeline..." + Style.RESET_ALL)
@@ -39,26 +61,26 @@ class inferencePipeline:
         for pipeline_index, steps in pipelines_dict.items():
 
             # Clustering
-            clustering_processor = steps["clustering_processor"]
+            clustering_processor = steps[PipelinesDictSchema.CLUSTERIING_PROCESSOR]
             test_processed = clustering_processor.process_data(X=df_filtered)
             test = clustering_processor.predict(X=test_processed, input_df=df_filtered)
 
             # Feature selection
-            features_selector = steps["features_selector"]
+            features_selector = steps[PipelinesDictSchema.FEATURE_SELECTOR]
             X_test, _ = features_selector.transform(test)
 
             # Scaling
-            scaling = steps["scaler"]
+            scaling = steps[PipelinesDictSchema.SCALER]
             X_test_scaled = scaling.transform(X_test)
 
             # Prediction
             predictions = {}
-            if "ml_models" in steps:
-                ml_models = steps["ml_models"]
+            if PipelinesDictSchema.ML_MODELS in steps:
+                ml_models = steps[PipelinesDictSchema.ML_MODELS]
                 predictions = ml_models.predict(X_test_scaled, predictions)
             
-            if "mlp_model" in steps:
-                mlp_model = steps["mlp_model"]
+            if PipelinesDictSchema.MLP_MODEL in steps:
+                mlp_model = steps[PipelinesDictSchema.MLP_MODEL]
                 predictions = mlp_model.predict(X_test_scaled, predictions)
             
             # Concatenate predictions
@@ -68,5 +90,7 @@ class inferencePipeline:
                                      DatasetSchema.YEAR_MONTH: test[DatasetSchema.YEAR_MONTH],
                                      DatasetSchema.NB_TRANSACTIONS: test[DatasetSchema.NB_TRANSACTIONS]})
             results = results._append(pd.concat([input_df.reset_index(drop=True), predictions_df.reset_index(drop=True)], axis=1), ignore_index=True)
-        results.to_csv("data/preds.csv", index=False)
+
+        results = self.predictions_agg(data = results, models = list(predictions.keys()))
+        results.to_csv(self.inference_config.raw_predictions_path, index=False)
         print(Fore.GREEN + "Inference pipeline completed successfully" + Style.RESET_ALL)

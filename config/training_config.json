@@ -46,7 +46,7 @@
             }
         },
         "MLP": {
-            "enabled": false,
+            "enabled": true,
             "hidden_layers_sizes": [100, 100],
             "activation_function": "relu",
             "solver": "adam",

@@ -1,6 +1,5 @@
 import pandas as pd
 from sklearn.metrics import mean_squared_error, mean_absolute_error
-from colorama import Fore, Style
 from typing import List, Dict
 from src.utils.training_config_loader import TrainingConfig
 from src.utils.schema import DatasetSchema, EvaluatorSchema
