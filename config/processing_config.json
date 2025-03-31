@@ -3,6 +3,10 @@
     "columns_to_keep": ["customer_id", "product_id", "date"],
     "unknown_product_id": ["├ÅTS", "Equipe", "Oxygen", "Undefined", "Not a make"],
     "nb_months_to_predict" : 3,
+    "max_window_size": 12,
+    "min_window_size": 3,
+    "max_lag": 12,
+    "min_lag": 3,
     "lvl1_processed_data_path": "data/lvl1_processed_data.csv",
     "processed_data_path": "data/processed_data.csv"
 }

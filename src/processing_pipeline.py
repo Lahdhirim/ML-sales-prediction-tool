@@ -11,14 +11,14 @@ class processingPipeline():
     def run(self):
         print(Fore.YELLOW + "Running processing pipeline..." + Style.RESET_ALL)
 
-        data = Level1Preprocessing(self.processing_config).transform()
+        data = Level1Preprocessing(processing_config = self.processing_config).transform()
         print("Shape of the data after level 1 preprocessing: ", data.shape)
         data.to_csv(self.processing_config.lvl1_processed_data_path, index=False)
 
-        data = Level2Preprocessing(self.processing_config).transform(data)
+        data = Level2Preprocessing(processing_config = self.processing_config).transform(data)
         print("Shape of the data after level 2 preprocessing: ", data.shape)
 
-        data = Level3Preprocessing().transform(data)
+        data = Level3Preprocessing(processing_config = self.processing_config).transform(data)
         print("Shape of the data after level 3 preprocessing: ", data.shape)
 
         data.to_csv(self.processing_config.processed_data_path, index=False)
