@@ -48,19 +48,35 @@ h2 {
     flex: 1;
   }
   
-button {
-    padding: 12px 25px;
-    font-size: 1rem;
-    color: white;
-    background-color: #007bff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    width: 100%;
+.error-message {
+    color: red;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 10px;
   }
   
-button:hover {
-    background-color: #0056b3;
+.btn-save {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #007bff;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
+  
+.btn-save:disabled {
+    background-color: #d6d6d6;
+    border-color: #bcbcbc;
+    color: #6c757d;
+    cursor: not-allowed;
+  }
+
+.btn-save:hover:not(:disabled) {
+    background-color: #0056b3;
+    border-color: #004085;
+}
   
