@@ -1,0 +1,64 @@
+<div class="container">
+    <h2>Processing Configuration Parameters</h2>
+  
+    <form (ngSubmit)="saveConfig()">
+      <div class="form-group">
+        <label for="nbMonthsToPredict">Number of months to predict:</label>
+        <input 
+          type="number" 
+          id="nbMonthsToPredict" 
+          [(ngModel)]="config.nb_months_to_predict" 
+          name="nbMonthsToPredict" 
+          class="form-control">
+      </div>
+  
+      <!-- Max & Min Window Size -->
+    <div class="form-group flex-container">
+        <div class="input-group">
+          <label for="maxWindowSize">Maximum window size for rolling features:</label>
+          <input 
+            type="number" 
+            id="maxWindowSize" 
+            [(ngModel)]="config.max_window_size" 
+            name="maxWindowSize" 
+            class="form-control small-input">
+        </div>
+  
+        <div class="input-group">
+          <label for="minWindowSize">Minimum window size for rolling features:</label>
+          <input 
+            type="number" 
+            id="minWindowSize" 
+            [(ngModel)]="config.min_window_size" 
+            name="minWindowSize" 
+            class="form-control small-input">
+        </div>
+      </div>
+  
+      <!-- Max & Min Lag -->
+      <div class="form-group flex-container">
+        <div class="input-group">
+          <label for="maxLag">Maximum lag values to consider:</label>
+          <input 
+            type="number" 
+            id="maxLag" 
+            [(ngModel)]="config.max_lag" 
+            name="maxLag" 
+            class="form-control small-input">
+        </div>
+  
+        <div class="input-group">
+          <label for="minLag">Minimum lag values to consider:</label>
+          <input 
+            type="number" 
+            id="minLag" 
+            [(ngModel)]="config.min_lag" 
+            name="minLag" 
+            class="form-control small-input">
+        </div>
+      </div>
+    
+      <!-- Save Configuration Button -->
+      <button type="submit" class="btn btn-primary">Save Processing Configuration</button>
+    </form>
+  </div>

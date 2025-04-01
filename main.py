@@ -17,7 +17,7 @@ if __name__ == '__main__':
         subprocess.run(["python", "src/config_editor/app.py"])
 
     elif args.mode == "train":
-        processing_config = preprocessing_config_loader("config/processing_config.json")
+        processing_config = preprocessing_config_loader(config_path = "config/processing_config.json")
         processing_pipeline = processingPipeline(processing_config = processing_config)
         processing_pipeline.run()
 
@@ -26,7 +26,7 @@ if __name__ == '__main__':
         backtesting_pipeline.run()
     
     elif args.mode == "inference":
-        inference_config = inference_config_loader("config/inference_config.json")
+        inference_config = inference_config_loader(config_path = "config/inference_config.json")
         inference_pipeline = inferencePipeline(inference_config = inference_config)
         inference_pipeline.run()
     

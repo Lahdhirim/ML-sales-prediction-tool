@@ -1,12 +1,25 @@
 {
-    "raw_data_paths": ["data/transactions_1.csv", "data/transactions_2.csv"],
-    "columns_to_keep": ["customer_id", "product_id", "date"],
-    "unknown_product_id": ["├ÅTS", "Equipe", "Oxygen", "Undefined", "Not a make"],
-    "nb_months_to_predict" : 3,
-    "max_window_size": 12,
-    "min_window_size": 3,
-    "max_lag": 12,
-    "min_lag": 3,
+    "columns_to_keep": [
+        "customer_id",
+        "product_id",
+        "date"
+    ],
     "lvl1_processed_data_path": "data/lvl1_processed_data.csv",
-    "processed_data_path": "data/processed_data.csv"
+    "max_lag": 12,
+    "max_window_size": 12,
+    "min_lag": 3,
+    "min_window_size": 3,
+    "nb_months_to_predict": 3,
+    "processed_data_path": "data/processed_data.csv",
+    "raw_data_paths": [
+        "data/transactions_1.csv",
+        "data/transactions_2.csv"
+    ],
+    "unknown_product_id": [
+        "├ÅTS",
+        "Equipe",
+        "Oxygen",
+        "Undefined",
+        "Not a make"
+    ]
 }

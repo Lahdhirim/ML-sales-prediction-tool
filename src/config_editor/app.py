@@ -29,13 +29,24 @@ def run_angular_ui():
     angular_process = subprocess.Popen(
         ["ng", "serve", "--open"], cwd="src/config_editor/angular_ui", shell=True)
 
-@app.route("/load_config", methods=["GET"])
-def read_config():
+@app.route("/load_processing_config", methods=["GET"])
+def read_processing_config():
     try:
-        processing_config = preprocessing_config_loader("config/processing_config.json")
-        training_config = training_config_loader(config_path = "config/training_config.json")
-        return {"message": "Config loaded successfully"}, 200
+        processing_config = preprocessing_config_loader(config_path = PROCESSING_CONFIG_PATH)
+        processing_config = processing_config.dict() # To let processing_config be JSON serializable
+        return {"message": "Processing Config loaded successfully", "config": processing_config}, 200
     except Exception as e:
+        app.logger.error(f"Error loading processing config: {e}")
+        return {"message": str(e)}, 500
+
+@app.route("/load_training_config", methods=["GET"])
+def read_training_config():
+    try:
+        training_config = training_config_loader(config_path = TRAINING_CONFIG_PATH)
+        training_config = training_config.dict() # To let training_config be JSON serializable
+        return {"message": "Training Config loaded successfully", "config": training_config}, 200
+    except Exception as e:
+        app.logger.error(f"Error loading training config: {e}")
         return {"message": str(e)}, 500
 
 @app.route("/update_processing_config", methods=["POST"])
@@ -43,7 +54,7 @@ def update_processing_config():
     try:
         new_config = request.json
         with open(PROCESSING_CONFIG_PATH, "w") as file:
-            json.dump(new_config, file, indent=4)
+            json.dump(new_config, file, indent=4, ensure_ascii=False)
         return {"message": "Processing Config updated successfully"}, 200
     except Exception as e:
         return {"message": str(e)}, 500
@@ -53,7 +64,7 @@ def update_training_config():
     try:
         new_config = request.json
         with open(TRAINING_CONFIG_PATH, "w") as file:
-            json.dump(new_config, file, indent=4)
+            json.dump(new_config, file, indent=4, ensure_ascii=False)
         return {"message": "Training Config updated successfully"}, 200
     except Exception as e:
         return {"message": str(e)}, 500

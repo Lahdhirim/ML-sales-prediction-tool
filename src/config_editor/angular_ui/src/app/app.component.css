@@ -1,0 +1,37 @@
+header {
+  background-color: #4CAF50;
+  color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #f0f0f0;
+  margin-bottom: 10px;
+  font-family: 'Arial', sans-serif;
+}
+
+.description {
+  font-style: italic;
+}
+
+.instructions {
+  font-weight: 500;
+}
