@@ -3,6 +3,10 @@ from src.utils.schema import DatasetSchema
 from src.utils.processing_config_loader import PreprocessingConfig
 
 class Level3Preprocessing():
+    """
+    Applies time series preprocessing steps such as temporal features, rolling statistics, 
+    and lag-based features.
+    """
     def __init__(self, processing_config: PreprocessingConfig):
         self.processing_config = processing_config
     

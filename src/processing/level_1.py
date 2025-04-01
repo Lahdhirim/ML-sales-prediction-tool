@@ -4,6 +4,10 @@ from colorama import Fore, Style
 from src.utils.schema import DatasetSchema
 
 class Level1Preprocessing():
+    """
+    Handles level 1 preprocessing of raw data, including loading, filtering, 
+    deduplication, and date conversion.
+    """
     def __init__(self, processing_config: PreprocessingConfig):
         self.processing_config = processing_config
     

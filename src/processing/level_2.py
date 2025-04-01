@@ -3,6 +3,10 @@ from src.utils.processing_config_loader import PreprocessingConfig
 from src.utils.schema import DatasetSchema
 
 class Level2Preprocessing():
+    """
+    Performs level 2 preprocessing, including monthly transaction aggregation, 
+    filling missing values, and generating future transaction counting.
+    """
     def __init__(self, processing_config: PreprocessingConfig):
         self.processing_config = processing_config
 
