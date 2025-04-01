@@ -20,12 +20,14 @@ class FeatureSelectorConfig(BaseModel):
 
 class ModelConfig(BaseModel):
     enabled: bool = Field(..., description="Enable or disable the model.")
-    alpha: Optional[float] = None
-    l1_ratio: Optional[float] = None
-    n_estimators: Optional[int] = None
-    max_depth: Optional[int] = None
-    learning_rate: Optional[float] = None
-    random_state: Optional[int] = None
+    alpha: Optional[float] = Field(None, description="Alpha value for ElasticNet model.")
+    l1_ratio: Optional[float] = Field(None, description="L1 ratio for ElasticNet model.")
+    n_estimators: Optional[int] = Field(None, description="Number of estimators.")
+    max_depth: Optional[int] = Field(None, description="Max depth of the tree.")
+    learning_rate: Optional[float] = Field(None, description="Learning rate for models like XGBoost.")
+    random_state: Optional[int] = Field(None, description="Random state for reproducibility.")
+    n_neighbors: Optional[int] = Field(None, description="Number of neighbors for KNeighborsRegressor.")
+    weights: Optional[str] = Field(None, description="Weights for KNeighborsRegressor.")
 
 class MLPConfig(BaseModel):
     enabled: bool = Field(..., description="Enable or disable the MLP model.")

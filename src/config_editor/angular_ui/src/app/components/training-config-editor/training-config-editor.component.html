@@ -1,1 +1,126 @@
-<p>training-config-editor works!</p>
+<div class="config-container">
+    <h2>Training Configuration</h2>
+
+    <!-- Splitter Section -->
+    <label for="min_training_months">Minimum Training Months:</label>
+    <input id="min_training_months" type="number" [(ngModel)]="config.splitter.min_training_months" (blur)="validateConfig()">
+    
+    <label for="testing_months">Testing Months:</label>
+    <input id="testing_months" type="number" [(ngModel)]="config.splitter.testing_months" (blur)="validateConfig()">
+    
+    <!-- Clustering Processor Section -->
+    <h3>Clustering Processor</h3>
+    
+    <label for="max_clusters">Max Clusters:</label>
+    <input id="max_clusters" type="number" [(ngModel)]="config.clustering_processor.max_clusters" (blur)="validateConfig()">
+    
+    <label for="default_cluster_size">Default Cluster Size:</label>
+    <input id="default_cluster_size" type="number" [(ngModel)]="config.clustering_processor.default_cluster_size" (blur)="validateConfig()">
+    
+    <!-- ML Models Section -->
+    <h3>ML Models</h3>
+    
+    <div class="model-group">
+      <!-- ElasticNet -->
+      <div class="model">
+        <label for="elastic_net_enabled">ElasticNet Enabled:</label>
+        <input id="elastic_net_enabled" type="checkbox" [(ngModel)]="config.models_params.MLModels.ElasticNet.enabled" (change)="checkModels()">
+    
+        <div class="param-container" *ngIf="config.models_params.MLModels.ElasticNet.enabled">
+          <label for="elastic_net_alpha">ElasticNet Alpha:</label>
+          <input id="elastic_net_alpha" type="range" min="0" max="10" [(ngModel)]="config.models_params.MLModels.ElasticNet.alpha">
+          <span>{{ config.models_params.MLModels.ElasticNet.alpha }}</span>
+
+          <label for="elastic_net_l1_ratio">ElasticNet L1 Ratio:</label>
+          <input id="elastic_net_l1_ratio" type="range" min="0" max="1" step="0.1" [(ngModel)]="config.models_params.MLModels.ElasticNet.l1_ratio">
+          <span>{{ config.models_params.MLModels.ElasticNet.l1_ratio }}</span>
+        </div>
+      </div>
+      
+      <!-- KNeighborsRegressor -->
+      <div class="model">
+        <label for="knn_enabled">KNeighborsRegressor Enabled:</label>
+        <input id="knn_enabled" type="checkbox" [(ngModel)]="config.models_params.MLModels.KNeighborsRegressor.enabled" (change)="checkModels()">
+      
+        <div class="param-container" *ngIf="config.models_params.MLModels.KNeighborsRegressor.enabled">
+          <label for="knn_n_neighbors">Number of Neighbors:</label>
+          <input id="knn_n_neighbors" type="number" [(ngModel)]="config.models_params.MLModels.KNeighborsRegressor.n_neighbors">
+          
+          <label for="knn_weights">Weights:</label>
+          <select id="knn_weights" [(ngModel)]="config.models_params.MLModels.KNeighborsRegressor.weights">
+            <option value="uniform">Uniform</option>
+            <option value="distance">Distance</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- RandomForest -->
+      <div class="model">
+        <label for="random_forest_enabled">RandomForest Enabled:</label>
+        <input id="random_forest_enabled" type="checkbox" [(ngModel)]="config.models_params.MLModels.RandomForest.enabled" (change)="checkModels()">
+      
+        <div class="param-container" *ngIf="config.models_params.MLModels.RandomForest.enabled">
+          <label for="random_forest_n_estimators">Number of Estimators:</label>
+          <input id="random_forest_n_estimators" type="number" [(ngModel)]="config.models_params.MLModels.RandomForest.n_estimators">
+          
+          <label for="random_forest_max_depth">Max Depth:</label>
+          <input id="random_forest_max_depth" type="number" [(ngModel)]="config.models_params.MLModels.RandomForest.max_depth">
+        </div>
+      </div>
+
+      <!-- XGBoost -->
+      <div class="model">
+        <label for="xgboost_enabled">XGBoost Enabled:</label>
+        <input id="xgboost_enabled" type="checkbox" [(ngModel)]="config.models_params.MLModels.XGBoost.enabled" (change)="checkModels()">
+      
+        <div class="param-container" *ngIf="config.models_params.MLModels.XGBoost.enabled">
+          <label for="xgboost_n_estimators">Number of Estimators:</label>
+          <input id="xgboost_n_estimators" type="number" [(ngModel)]="config.models_params.MLModels.XGBoost.n_estimators">
+          
+          <label for="xgboost_max_depth">Max Depth:</label>
+          <input id="xgboost_max_depth" type="number" [(ngModel)]="config.models_params.MLModels.XGBoost.max_depth">
+        </div>
+      </div>
+    
+      <!-- MLP -->
+      <div class="model">
+        <label for="mlp_enabled">MLP Enabled:</label>
+        <input id="mlp_enabled" type="checkbox" [(ngModel)]="config.models_params.MLP.enabled" (change)="checkModels()">
+    
+        <div class="param-container" *ngIf="config.models_params.MLP.enabled">
+          <label for="mlp_activation_function">Activation Function:</label>
+          <select id="mlp_activation_function" [(ngModel)]="config.models_params.MLP.activation_function">
+            <option value="relu">ReLU</option>
+            <option value="tanh">Tanh</option>
+            <option value="sigmoid">Sigmoid</option>
+          </select>
+
+          <label for="mlp_solver">Solver:</label>
+          <select id="mlp_solver" [(ngModel)]="config.models_params.MLP.solver">
+            <option value="adam">Adam</option>
+            <option value="sgd">SGD</option>
+            <option value="lbfgs">LBFGS</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error message if config is invalid -->
+    <div *ngIf="isInvalid" class="error-message">
+      <p>{{ errorMessage }}</p>
+    </div>
+
+    <!-- Error message if all models are disabled -->
+    <div *ngIf="allModelsDisabled" class="error-message">
+      <p>Please enable at least one model to proceed with the backtesting.</p>
+    </div>
+
+    <!-- Save Configuration and Run Backtesting -->
+    <button (click)="saveConfig()" [disabled]="isRunning || allModelsDisabled || isInvalid">Save Configuration</button>
+    <button (click)="runBacktesting()" [disabled]="isRunning || allModelsDisabled || isInvalid">
+      {{ isRunning ? 'Running Backtesting...(please wait this may take a few minutes)' : 'Run Backtesting' }}
+    </button>
+
+    <!-- Shutdown Server Button -->
+    <button class="close-server" (click)="shutdown()">❌ Close Application</button>
+</div>

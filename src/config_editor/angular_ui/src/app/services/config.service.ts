@@ -21,7 +21,7 @@ export class ConfigService {
     return this.http.post(`${this.apiUrl}/update_processing_config`, config);
   }
 
-  updatetrainingConfig(config: any): Observable<any> {
+  updateTrainingConfig(config: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/update_training_config`, config);
   }
 

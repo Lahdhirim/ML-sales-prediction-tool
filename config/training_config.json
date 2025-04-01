@@ -1,60 +1,69 @@
 {
-    "train_data_path": "data/processed_data.csv",
-    "splitter": {
-        "min_training_months": 12, 
-        "testing_months": 3
-    },
-    "clustering_processor":
-        {
-            "product_mapping_path": "data/product_mapping.xlsx",
-            "lvl1_processed_data_path": "data/lvl1_processed_data.csv",
-            "features": {
-                "categorical_features": ["product_id", "group", "country", "category"],
-                "numerical_features": ["avg_transactions_per_month"]
-            },
-            "max_clusters": 30,
-            "default_cluster_size": 4
+    "clustering_processor": {
+        "default_cluster_size": 4,
+        "features": {
+            "categorical_features": [
+                "product_id",
+                "group",
+                "country",
+                "category"
+            ],
+            "numerical_features": [
+                "avg_transactions_per_month"
+            ]
         },
+        "lvl1_processed_data_path": "data/lvl1_processed_data.csv",
+        "max_clusters": 30,
+        "product_mapping_path": "data/product_mapping.xlsx"
+    },
     "features_selector": {
         "features_path": "config/features.json",
         "target_column": "future_transactions"
     },
+    "kpis_path": "data/output/KPIs.xlsx",
     "models_params": {
         "MLModels": {
             "ElasticNet": {
+                "alpha": 1,
                 "enabled": true,
-                "alpha": 1.0,
                 "l1_ratio": 0.2
             },
             "KNeighborsRegressor": {
                 "enabled": true,
-                "n_neighbors": 5,
+                "n_neighbors": 10,
                 "weights": "distance"
             },
             "RandomForest": {
                 "enabled": false,
-                "n_estimators": 100,
                 "max_depth": 5,
+                "n_estimators": 100,
                 "random_state": 42
             },
             "XGBoost": {
                 "enabled": false,
-                "n_estimators": 100,
                 "learning_rate": 0.01,
                 "max_depth": 5,
+                "n_estimators": 100,
                 "random_state": 42
             }
         },
         "MLP": {
-            "enabled": true,
-            "hidden_layers_sizes": [100, 100],
             "activation_function": "relu",
-            "solver": "adam",
+            "enabled": true,
+            "hidden_layers_sizes": [
+                100,
+                100
+            ],
             "max_iter": 10000,
-            "random_state": 42
+            "random_state": 42,
+            "solver": "adam"
         }
     },
     "raw_predictions_path": "data/output/raw_predictions.csv",
-    "kpis_path": "data/output/KPIs.xlsx",
+    "splitter": {
+        "min_training_months": 12,
+        "testing_months": 3
+    },
+    "train_data_path": "data/processed_data.csv",
     "trained_models_path": "models/trained_models.pkl"
 }

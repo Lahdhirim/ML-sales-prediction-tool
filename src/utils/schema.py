@@ -36,5 +36,6 @@ class PipelinesDictSchema:
     CLUSTERIING_PROCESSOR = "clustering_processor"
     FEATURE_SELECTOR = "features_selector"
     SCALER = "scaler"
-    ML_MODELS = "ml_models"
+    MODELS_PARAMS = "models_params"
+    ML_MODELS = "MLModels"
     MLP_MODEL = "mlp_model"

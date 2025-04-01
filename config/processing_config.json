@@ -9,7 +9,7 @@
     "max_window_size": 12,
     "min_lag": 3,
     "min_window_size": 3,
-    "nb_months_to_predict": 5,
+    "nb_months_to_predict": 3,
     "processed_data_path": "data/processed_data.csv",
     "raw_data_paths": [
         "data/transactions_1.csv",

@@ -15,6 +15,7 @@ from src.utils.processing_config_loader import preprocessing_config_loader
 from src.processing_pipeline import processingPipeline
 from src.utils.training_config_loader import training_config_loader
 from src.backtesting_pipeline import backtestingPipeline
+from src.utils.schema import PipelinesDictSchema
 
 app = Flask(__name__)
 CORS(app)
@@ -44,6 +45,9 @@ def read_training_config():
     try:
         training_config = training_config_loader(config_path = TRAINING_CONFIG_PATH)
         training_config = training_config.dict() # To let training_config be JSON serializable
+        for model_name, model_hyperparameters in training_config[PipelinesDictSchema.MODELS_PARAMS][PipelinesDictSchema.ML_MODELS].items():
+            training_config[PipelinesDictSchema.MODELS_PARAMS][PipelinesDictSchema.ML_MODELS][model_name] = \
+            {hyper_param: value for hyper_param, value in model_hyperparameters.items() if value is not None} # To avoid assigning null values to non relevant hype-parameter during update_training_config
         return {"message": "Training Config loaded successfully", "config": training_config}, 200
     except Exception as e:
         app.logger.error(f"Error loading training config: {e}")
@@ -63,6 +67,7 @@ def update_processing_config():
 def update_training_config():
     try:
         new_config = request.json
+        print(new_config)
         with open(TRAINING_CONFIG_PATH, "w") as file:
             json.dump(new_config, file, indent=4, ensure_ascii=False)
         return {"message": "Training Config updated successfully"}, 200
