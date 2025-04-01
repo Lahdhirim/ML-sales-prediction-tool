@@ -7,6 +7,16 @@ from src.utils.training_config_loader import MLPConfig
 from sklearn.base import RegressorMixin
 
 class MLPModel:
+    """
+    A class for managing and training a Multi-layer Perceptron (MLP) regression model.
+
+    This class initializes an MLPRegressor based on the provided configuration and handles the 
+    training and prediction processes, ensuring non-negative outputs for predictions.
+
+    Methods:
+        train(X_train, y_train): Trains the MLP model on the provided training data.
+        predict(X_test, predictions): Makes predictions on the test data and ensures non-negative values.
+    """
     def __init__(self, config: MLPConfig):
         if config.enabled:
             params = {

@@ -3,6 +3,17 @@ from src.utils.schema import DatasetSchema
 from src.utils.training_config_loader import SplitterConfig
 
 class TimeSeriesSplitter:
+    """
+    A class for splitting time-series data into training, validation, and testing sets based on a time-based approach.
+
+    The class ensures that the data is split in chronological order, with a defined number of months for 
+    training, validation, and testing periods.
+
+    Methods:
+        split(df): Generates time-based splits for training, validation, and testing sets.
+                  The method yields each split as a tuple of (split_index, train, val, test).
+    """
+
     def __init__(self, splitter_config: SplitterConfig):
         self.min_training_months = splitter_config.min_training_months
         self.testing_months = splitter_config.testing_months

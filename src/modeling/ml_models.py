@@ -10,6 +10,17 @@ from sklearn.base import RegressorMixin
 import numpy as np
 
 class MLModels:
+    """
+    A class for managing and training multiple machine learning models.
+
+    This class initializes and trains several regression models (KNeighborsRegressor, ElasticNet, 
+    RandomForestRegressor, XGBoost) based on the provided configuration. It handles training, 
+    prediction, and ensures non-negative outputs for predictions.
+
+    Methods:
+        train(X_train, y_train, X_val, y_val): Trains the models on the provided training and validation data.
+        predict(X_test, predictions): Makes predictions on the test data and ensures non-negative values.
+    """
     def __init__(self, config: ModelsConfig):
         self.models = {}
         for model_name, model_config in config.items():

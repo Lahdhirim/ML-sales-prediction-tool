@@ -10,7 +10,7 @@ import json
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
-# Import pipelines
+# Import pipelines and schema
 from src.utils.processing_config_loader import preprocessing_config_loader
 from src.processing_pipeline import processingPipeline
 from src.utils.training_config_loader import training_config_loader

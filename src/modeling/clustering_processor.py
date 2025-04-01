@@ -7,6 +7,17 @@ from kneed import KneeLocator
 from src.utils.schema import DatasetSchema, MappingSchema
 
 class ClusteringProcessor():
+    """
+    A class for processing and clustering customer transaction data.
+
+    This class handles:
+    - Loading and processing transaction data.
+    - Encoding categorical features and scaling numerical features.
+    - Computing customer statistics.
+    - Training a KMeans clustering model to group customers.
+    - Predicting cluster assignments for new data.
+    """
+    
     def __init__(self, clustering_processor_config: ClusteringProcessorConfig):
         self.product_mapping_path = clustering_processor_config.product_mapping_path
         self.lvl1_processed_data_path = clustering_processor_config.lvl1_processed_data_path

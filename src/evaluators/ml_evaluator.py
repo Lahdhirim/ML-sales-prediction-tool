@@ -5,6 +5,9 @@ from src.utils.training_config_loader import TrainingConfig
 from src.utils.schema import DatasetSchema, EvaluatorSchema
 
 class MLEvaluator:
+    """
+    Class for evaluating machine learning models using various performance metrics.
+    """
     def __init__(self, config: TrainingConfig, models: List[str]):
         self.target_column = config.features_selector.target_column
         self.models = models
@@ -14,6 +17,7 @@ class MLEvaluator:
         metrics = {}
         for model in self.models:
             y_true = df[self.target_column]
+
             y_pred = df[model]
             metrics[model] = {
                 EvaluatorSchema.RMSE: mean_squared_error(y_true, y_pred) ** 0.5,
