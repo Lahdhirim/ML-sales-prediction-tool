@@ -24,7 +24,7 @@ h2 {
   }
   
 .form-group input {
-    width: 20%;
+    width: 100%;
     padding: 6px;
     font-size: 0.85rem;
     border: 1px solid #ddd;

@@ -67,7 +67,6 @@ def update_processing_config():
 def update_training_config():
     try:
         new_config = request.json
-        print(new_config)
         with open(TRAINING_CONFIG_PATH, "w") as file:
             json.dump(new_config, file, indent=4, ensure_ascii=False)
         return {"message": "Training Config updated successfully"}, 200
@@ -77,11 +76,11 @@ def update_training_config():
 @app.route("/run_backtesting", methods=["POST"])
 def run_backtesting():
     try:
-        processing_config = preprocessing_config_loader("config/processing_config.json")
+        processing_config = preprocessing_config_loader(config_path = PROCESSING_CONFIG_PATH)
         processing_pipeline = processingPipeline(processing_config = processing_config)
         processing_pipeline.run()
 
-        training_config = training_config_loader(config_path = "config/training_config.json")
+        training_config = training_config_loader(config_path = TRAINING_CONFIG_PATH)
         backtesting_pipeline = backtestingPipeline(training_config = training_config)
         backtesting_pipeline.run()
         return {"message": "Backtesting completed"}, 200

@@ -24,7 +24,7 @@
     "models_params": {
         "MLModels": {
             "ElasticNet": {
-                "alpha": 1,
+                "alpha": 7,
                 "enabled": true,
                 "l1_ratio": 0.2
             },
@@ -34,13 +34,13 @@
                 "weights": "distance"
             },
             "RandomForest": {
-                "enabled": false,
+                "enabled": true,
                 "max_depth": 5,
                 "n_estimators": 100,
                 "random_state": 42
             },
             "XGBoost": {
-                "enabled": false,
+                "enabled": true,
                 "learning_rate": 0.01,
                 "max_depth": 5,
                 "n_estimators": 100,
