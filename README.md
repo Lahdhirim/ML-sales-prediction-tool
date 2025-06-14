@@ -44,6 +44,10 @@ The pipeline consists of **three transformation levels**:
   - **Aggregation function** (e.g., weighted method prioritizes recent models)
 - Configurable via [`config/inference_config.json`](config/inference_config.json)
 
+<div style="text-align: center;">
+    <img src="imgs/pipelines.png" alt="CV" width="550" height="350"/>
+</div>
+
 ### User Interface (Flask & Angular)
 - Web interface to **edit configurations** and **run training pipeline**
 
