@@ -64,8 +64,8 @@ Make sure you have the following installed:
 ### Installation
 1. Clone the repository:
     ```bash
-    git clone https://github.com/Lahdhirim/ML_sales_prediction_tool.git
-    cd ML_sales_prediction_tool
+    git clone https://github.com/Lahdhirim/ML-sales-prediction-tool.git
+    cd ML-sales-prediction-tool
     ```
 2. Install dependencies:
     - Python packages:
